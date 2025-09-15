@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🍔 Form Pemesanan Junk Food</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FFCC00, #FF5733);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      width: 420px;
+      border: 4px solid #FF5733;
+    }
+    h2 {
+      text-align: center;
+      color: #FF5733;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #FFD54F;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    select {
+      background-color: #fff8e1;
+    }
+    button {
+      background: #FF5733;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #e64a19;
+    }
+    #status {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🍟 Pesan Junk Food Favoritmu</h2>
+    <form id="myForm">
+      <label for="nama">Nama Lengkap:</label>
+      <input type="text" id="nama" name="nama" placeholder="Masukkan nama" required>
+
+      <label for="nohp">Nomor HP:</label>
+      <input type="tel" id="nohp" name="nohp" placeholder="08xxxx" required>
+
+      <label for="alamat">Alamat:</label>
+      <textarea id="alamat" name="alamat" rows="2" placeholder="Alamat lengkap" required></textarea>
+
+      <label for="menu">Pilih Menu Junk Food:</label>
+      <select id="menu" name="menu" required>
+        <option value="">-- Pilih Menu --</option>
+        <option value="Burger">🍔 Burger</option>
+        <option value="Pizza">🍕 Pizza</option>
+        <option value="Fried Chicken">🍗 Fried Chicken</option>
+        <option value="French Fries">🍟 French Fries</option>
+        <option value="Hot Dog">🌭 Hot Dog</option>
+        <option value="Soda">🥤 Soda</option>
+      </select>
+
+      <label for="jumlah">Jumlah:</label>
+      <input type="number" id="jumlah" name="jumlah" min="1" placeholder="Jumlah pesanan" required>
+
+      <label for="catatan">Catatan Tambahan:</label>
+      <textarea id="catatan" name="catatan" rows="2" placeholder="Contoh: pedas, tanpa saus"></textarea>
+
+      <button type="submit">🍔 Pesan Sekarang</button>
+    </form>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const scriptURL = "PASTE_URL_DEPLOYMENT_APPS_SCRIPT_DI_SINI"; // ganti dengan URL Apps Script
+
+    document.getElementById("myForm").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById("status").innerText = "✅ Pesanan berhasil dikirim!";
+        document.getElementById("status").className = "success";
+        e.target.reset();
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "❌ Error: " + err;
+        document.getElementById("status").className = "error";
+      });
+    });
+  </script>
+</body>
+</html>
